@@ -1,8 +1,15 @@
 import React from 'react'
-
+import Sidebar from './Sidebar'
+import './App.css'
+import Content from './Content'
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <div className='dashboard'>
+      <Sidebar />
+      <div className="dashboard-content">
+        <Content />
+      </div>
+    </div>
   )
 }
 
