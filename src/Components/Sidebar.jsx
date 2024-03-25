@@ -15,10 +15,7 @@ const Sidebar = () => {
                     <BiHome className='icon' />
                     Dashboard
                 </a>
-                <a href="#" className='item'>
-                    <BiTask className='icon' />
-                    Assignment
-                </a>
+
                 <a href="#" className='item'>
                     <BiSolidReport className='icon' />
                     Report

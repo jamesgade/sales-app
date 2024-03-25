@@ -48,3 +48,16 @@ transition: 0.3s ease-in-out;
     background:#27374d;
     color:#dde6ed
 }
+.dashboard{
+    display: flex;
+    gap: 20px;
+}
+.dashboard-content{
+    background:#fff ;
+    flex: 1;
+    border-radius: 20px;
+    padding:2rem ;
+    display: flex;
+    gap:1.5rem;
+    justify-content: space-between;
+}
