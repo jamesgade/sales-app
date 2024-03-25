@@ -61,3 +61,35 @@ transition: 0.3s ease-in-out;
     gap:1.5rem;
     justify-content: space-between;
 }
+.content{
+    width: 100%;
+
+}
+.content-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.content-header a{
+    text-decoration: none;
+    padding-left: 35rem;
+}
+.header-title{
+    color:#526d82 ;
+
+}
+.header-activity{
+    display: flex;
+    align-items:center;
+    gap: 40px;
+    
+}
+.search-box{
+    background: #dde6ed;
+    padding: 8px 10px;
+    border-radius: 10px;
+    display: flex;
+}
+.search-box input ::placeholder{
+    color: #ffffff4e;
+}

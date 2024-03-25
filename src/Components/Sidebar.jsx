@@ -11,7 +11,7 @@ const Sidebar = () => {
                 </h2>
             </div>
             <div className="menu-list">
-                <a href="#" className='item'>
+                <a href="/dashboard" className='item'>
                     <BiHome className='icon' />
                     Dashboard
                 </a>
