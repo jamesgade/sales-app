@@ -106,7 +106,7 @@ const Card = () => {
             <div className="sales-container">
                 {showAddSales && (
                     <div className="add-sales-wrapper">
-                        <h2>Add Sales Data</h2>
+                        <h2>{formData.id ? 'Edit Sales Data' : 'Add Sales Data'}</h2>
                         <form className="sales">
                             <label>Date:</label>
                             <input
@@ -157,7 +157,7 @@ const Card = () => {
                                 required />
                             <br />
                             <button type="button" onClick={handleAddSalesData}>
-                                Add Data
+                                {formData.id ? 'Update Data' : 'Add Data'}
                             </button>
                         </form>
                     </div>

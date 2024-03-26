@@ -11,10 +11,11 @@ const ContentHeader = () => {
 
             <div className="header-activity">
                 <div className="search-box">
-                    <input type="text" placeholder='Search Here' />
+                    <input type="text" name='search' placeholder='Search Here' />
                     <BiSearch className='icon' />
                 </div>
             </div>
+
         </div>
     )
 }
