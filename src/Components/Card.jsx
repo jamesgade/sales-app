@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Cookies from 'js-cookie';
 import { BsFillTrashFill, BsFillPencilFill } from 'react-icons/bs'
+import { CSVLink } from 'react-csv'
 import { BiSearch } from 'react-icons/bi'
 const Card = () => {
     const [search, setSearch] = useState('')
@@ -213,6 +214,9 @@ const Card = () => {
                         ))}
                     </tbody>
                 </table>
+                <div className="csv-btn">
+                    <CSVLink data={salesData} className="csv">Export File</CSVLink>
+                </div>
             </div>
         </div>
     );

@@ -224,3 +224,19 @@ font-weight: bold;
     font-weight: 500;
     background-color:#60bd7e ;
 }
+.csv-btn{
+    margin-top: 70px;
+    text-align: end;
+    margin-right: 25px;
+}
+.csv{
+    text-decoration: none;
+    color: #e10d05;
+    font-size:1rem ;
+    font-weight: 600;
+    cursor: pointer;
+}
+.csv:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
