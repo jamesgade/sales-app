@@ -1,5 +1,5 @@
 import React from 'react'
-import { BiHome, BiMessage, BiSolidReport, BiStats, BiTask } from 'react-icons/bi'
+import { BiHome, BiMessage, BiSolidReport, BiStats, BiTask, BiLogOut } from 'react-icons/bi'
 import { FcSalesPerformance } from "react-icons/fc";
 const Sidebar = () => {
     return (
@@ -17,13 +17,10 @@ const Sidebar = () => {
                 </a>
 
                 <a href="#" className='item'>
-                    <BiSolidReport className='icon' />
-                    Report
+                    <BiLogOut className='icon' />
+                    Logout
                 </a>
-                <a href="#" className='item'>
-                    <BiStats className='icon' />
-                    Stats
-                </a>
+
 
             </div>
         </div>
