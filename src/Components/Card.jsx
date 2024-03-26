@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Cookies from 'js-cookie';
 import { BsFillTrashFill, BsFillPencilFill } from 'react-icons/bs'
+import { BiSearch } from 'react-icons/bi'
 const Card = () => {
+    const [search, setSearch] = useState('')
     const [showAddSales, setShowAddSales] = useState(false);
     const [salesData, setSalesData] = useState(() => {
         const storedSalesData = Cookies.get('salesData');
@@ -49,7 +51,7 @@ const Card = () => {
     };
 
     const handleAddSalesData = () => {
-        // Check if any required fields are empty
+
         if (
             formData.date === "" ||
             formData.customerName === "" ||
@@ -162,15 +164,22 @@ const Card = () => {
                         </form>
                     </div>
                 )}
-                {!showAddSales && (
-                    <button className="btn-add" onClick={() => setShowAddSales(true)}>Add Sales</button>
-                )}
+                <div className="content-header">
+                    {!showAddSales && (
+                        <button className="btn-add" onClick={() => setShowAddSales(true)}>Add Sales</button>
+                    )}
+                    <div className="search-box">
+                        <input type="text" name='search' placeholder='Search Name' onChange={(e) => setSearch(e.target.value)} />
+                        <BiSearch className='icon' />
+                    </div>
+                </div>
+
             </div>
 
             <div className="table-wrapper">
                 <div className="table-data">
                     <h2 className="table-header">Sales Data</h2>
-                    {/* <button className="btn-add">Add Sales</button> */}
+
                 </div>
 
                 <table className="table">
@@ -187,7 +196,9 @@ const Card = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {salesData.map((sale) => (
+                        {salesData.filter((item) => {
+                            return search.toLowerCase() === '' ? item : item.customerName.toLowerCase().includes(search)
+                        }).map((sale) => (
                             <tr key={sale.id}>
                                 <td>{sale.id}</td>
                                 <td>{sale.date}</td>

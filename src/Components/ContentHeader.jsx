@@ -9,13 +9,6 @@ const ContentHeader = () => {
                 Dashboard
             </h1>
 
-            <div className="header-activity">
-                <div className="search-box">
-                    <input type="text" name='search' placeholder='Search Here' />
-                    <BiSearch className='icon' />
-                </div>
-            </div>
-
         </div>
     )
 }
