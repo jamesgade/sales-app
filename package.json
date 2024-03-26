@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "firebase": "^10.9.0",
     "js-cookie": "^3.0.5",
     "nanoid": "^5.0.6",
     "react": "^18.2.0",
