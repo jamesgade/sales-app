@@ -1,34 +1,38 @@
 import React, { useState, useEffect } from "react";
-import Cookies from 'js-cookie';
 import { BsFillTrashFill, BsFillPencilFill } from 'react-icons/bs'
 import { CSVLink } from 'react-csv'
 import { BiSearch } from 'react-icons/bi'
+import { getFirestore, collection, getDocs, addDoc } from 'firebase/firestore';
+
 const Card = () => {
     const [search, setSearch] = useState('')
     const [showAddSales, setShowAddSales] = useState(false);
-    const [salesData, setSalesData] = useState(() => {
-        const storedSalesData = Cookies.get('salesData');
-        return storedSalesData ? JSON.parse(storedSalesData) : [
-            {
-                id: 1,
-                date: "2024-03-25",
-                customerName: "John Doe",
-                sales: 10,
-                price: 50,
-                frozenSales: 5,
-                liveSales: 5,
-            },
-            {
-                id: 2,
-                date: "2024-03-26",
-                customerName: "Jane Smith",
-                sales: 15,
-                price: 60,
-                frozenSales: 8,
-                liveSales: 7,
-            },
-        ];
-    });
+
+    const [salesData, setSalesData] = useState([]);
+    const fetchData = async () => {
+        try {
+            const db = getFirestore();
+            const colRef = collection(db, 'salesData');
+            const snapshot = await getDocs(colRef);
+
+            let data = [];
+            snapshot.forEach((doc) => {
+                const { customerName, sales, price, frozenSales, liveSales, date } = doc.data();
+                const dates = date.toDate()
+                const formattedDate = `${dates.getDate()}/${dates.getMonth() + 1}/${dates.getFullYear()}`;
+                data.push({ ...doc.data(), id: doc.id, sales, price, frozenSales, liveSales, customerName, dates: formattedDate });
+            });
+            setSalesData(data);
+            return data; // Return fetched data
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
+
+    useEffect(() => {
+        fetchData(); // Fetch data when component mounts
+    }, []);
+
 
     const [formData, setFormData] = useState({
         date: "",
@@ -39,9 +43,7 @@ const Card = () => {
         liveSales: 0,
     });
 
-    useEffect(() => {
-        Cookies.set('salesData', JSON.stringify(salesData), { expires: 365 });
-    }, [salesData]);
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -50,44 +52,42 @@ const Card = () => {
             [name]: value,
         }));
     };
+    const handleAddSalesData = async () => {
+        try {
+            const db = getFirestore();
+            const salesDataRef = collection(db, 'salesData');
 
-    const handleAddSalesData = () => {
+            await addDoc(salesDataRef, {
+                customerName: formData.customerName,
+                date: new Date(formData.date),
+                sales: parseInt(formData.sales),
+                price: parseFloat(formData.price),
+                frozenSales: parseInt(formData.frozenSales),
+                liveSales: parseInt(formData.liveSales)
+            });
 
-        if (
-            formData.date === "" ||
-            formData.customerName === "" ||
-            formData.sales === "" ||
-            formData.price === "" ||
-            formData.frozenSales === "" ||
-            formData.liveSales === ""
-        ) {
-            alert("Please fill in all fields.");
-            return;
+            // Refresh sales data after adding new data
+            await fetchData(); // Fetch data again
+            setFormData({
+                date: "",
+                customerName: "",
+                sales: 0,
+                price: 0,
+                frozenSales: 0,
+                liveSales: 0,
+            });
+
+            setShowAddSales(false);
+            console.log('Data added to Firestore successfully!');
+        } catch (error) {
+            console.error('Error adding data to Firestore: ', error.message);
         }
-
-        const newSalesData = {
-            id: salesData.length + 1,
-            ...formData,
-        };
-
-        const updatedSalesData = [...salesData];
-        updatedSalesData.push(newSalesData);
-
-        setSalesData(updatedSalesData);
-        setFormData({
-            date: "",
-            customerName: "",
-            sales: 0,
-            price: 0,
-            frozenSales: 0,
-            liveSales: 0,
-        });
-        setShowAddSales(false);
     };
     const handleEditSale = (id) => {
         const saleToEdit = salesData.find(sale => sale.id === id);
         if (saleToEdit) {
             setFormData({
+                id: saleToEdit.id,
                 date: saleToEdit.date,
                 customerName: saleToEdit.customerName,
                 sales: saleToEdit.sales,
@@ -110,7 +110,7 @@ const Card = () => {
                 {showAddSales && (
                     <div className="add-sales-wrapper">
                         <h2>{formData.id ? 'Edit Sales Data' : 'Add Sales Data'}</h2>
-                        <form className="sales">
+                        <form className="sales" >
                             <label>Date:</label>
                             <input
                                 type="date"
@@ -199,10 +199,10 @@ const Card = () => {
                     <tbody>
                         {salesData.filter((item) => {
                             return search.toLowerCase() === '' ? item : item.customerName.toLowerCase().includes(search)
-                        }).map((sale) => (
+                        }).map((sale, index) => (
                             <tr key={sale.id}>
-                                <td>{sale.id}</td>
-                                <td>{sale.date}</td>
+                                <td>{index + 1}</td>
+                                <td>{sale.dates}</td>
                                 <td >{sale.customerName}</td>
                                 <td>{sale.sales}</td>
                                 <td>{sale.price}</td>

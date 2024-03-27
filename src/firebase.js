@@ -7,7 +7,9 @@ const firebaseConfig = {
   storageBucket: "sales-app-d2bea.appspot.com",
   messagingSenderId: "1040933370207",
   appId: "1:1040933370207:web:814516afc3e404ad39deea",
-  databaseURL:"https://sales-app-d2bea-default-rtdb.firebaseio.com",
+  
 };
  const app=initializeApp(firebaseConfig)
  export const auth=getAuth(app);
+
+ 
