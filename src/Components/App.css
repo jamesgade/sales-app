@@ -149,7 +149,8 @@ transition: 0.3s ease-in-out;
     width: 75%;
     max-width:80% ;
     margin: auto;
-    overflow-x: auto;
+    overflow-y:scroll;
+    max-height:430px;
 }
 .table-header{
 text-align: center;
@@ -226,8 +227,12 @@ font-weight: bold;
 }
 .csv-btn{
     margin-top: 70px;
+    margin-bottom: 20px;
     text-align: end;
     margin-right: 25px;
+    position: fixed;
+  bottom: 20px;
+  right: 20px;
 }
 .csv{
     text-decoration: none;

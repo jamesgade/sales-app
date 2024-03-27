@@ -1,7 +1,15 @@
 import React from 'react'
-import { BiHome, BiMessage, BiSolidReport, BiStats, BiTask, BiLogOut } from 'react-icons/bi'
+import { BiHome, BiLogOut } from 'react-icons/bi'
 import { FcSalesPerformance } from "react-icons/fc";
+import { auth } from '../firebase'
+import { signOut } from 'firebase/auth';
 const Sidebar = () => {
+    const logOut = () => {
+        signOut(auth).then(() => {
+            alert('Successfully Logout !')
+        }).catch(error => console.log(error)
+        )
+    }
     return (
         <div className='menu'>
             <div className="logo">
@@ -16,7 +24,7 @@ const Sidebar = () => {
                     Dashboard
                 </a>
 
-                <a href="#" className='item'>
+                <a href="/" className='item' onClick={logOut}>
                     <BiLogOut className='icon' />
                     Logout
                 </a>
