@@ -3,27 +3,19 @@ import '../index.css'
 import { FaUser, FaLock } from 'react-icons/fa'
 import { auth } from '../firebase'
 import { signInWithEmailAndPassword } from 'firebase/auth'
+import { useNavigate } from 'react-router-dom'
+useNavigate
 const Login = () => {
+    const history = useNavigate()
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    // const [error, setError] = useState('');
-    // const dummyUserData = {
-    //     username: 'user123',
-    //     password: 'password123',
-    // };
-
-    // const handleLogin = () => {
-    //     if (username === dummyUserData.username && password === dummyUserData.password) {
-    //         alert('Login successful!');
-    //     } else {
-    //         setError('Invalid username or password');
-    //     }
     const signIn = (e) => {
         e.preventDefault();
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 console.log(userCredential)
                 alert('Login successful!');
+                history(`/dashboard`)
             }).catch((error) => {
                 console.log(error)
                 alert('Invalid username or password');
