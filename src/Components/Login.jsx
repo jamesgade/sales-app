@@ -4,7 +4,7 @@ import { FaUser, FaLock } from 'react-icons/fa'
 import { auth } from '../firebase'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
-useNavigate
+
 const Login = () => {
     const history = useNavigate()
     const [email, setEmail] = useState('');
@@ -20,6 +20,9 @@ const Login = () => {
                 console.log(error)
                 alert('Invalid username or password');
             })
+    }
+    const handleReset = () => {
+        history(`/reset`)
     }
 
     return (
@@ -37,7 +40,7 @@ const Login = () => {
                     </div>
                     <div className="remember-forgot">
                         <label><input type="checkbox" />Remember me</label>
-                        <a href="#"> Forget Password?</a>
+                        <p onClick={handleReset}> Forgot Password?</p>
                     </div>
                     {/* {error && <p style={{ color: 'red', fontWeight: 'bold' }}>{error}</p>} */}
                     <button type='submit' >Login</button>
