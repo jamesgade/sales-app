@@ -109,6 +109,10 @@ display: flex;
     text-decoration: none;
     font-weight: 600;
 }
+.register-link b:hover{
+text-decoration: underline;
+cursor: pointer;
+}
 .register-link p{
     color: #fff;
 }

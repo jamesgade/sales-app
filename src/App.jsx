@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Dashboard from './Components/Dashboard'
 import NotFound from './Components/NotFound'
 import ForgotPassword from './Components/ForgotPassword'
+import Register from './Components/Register'
 const App = () => {
   return (
     <div>
@@ -13,10 +14,12 @@ const App = () => {
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/notfound' element={<NotFound />} />
           <Route path='/*' element={<NotFound />} />
+          <Route path='/signup' element={<Register />} />
           <Route path='/reset' element={<ForgotPassword />} />
+
         </Routes>
       </Router>
-    </div>
+    </div >
   )
 }
 
