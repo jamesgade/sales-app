@@ -2,28 +2,49 @@ import React, { useState, useEffect } from "react";
 import { BsFillTrashFill, BsFillPencilFill } from 'react-icons/bs'
 import { CSVLink } from 'react-csv'
 import { BiSearch } from 'react-icons/bi'
-import { getFirestore, collection, getDocs, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, updateDoc, orderBy, query, serverTimestamp } from 'firebase/firestore';
+
+
 
 const Card = () => {
     const [search, setSearch] = useState('')
     const [showAddSales, setShowAddSales] = useState(false);
-
+    const [editingSaleId, setEditingSaleId] = useState(null);
     const [salesData, setSalesData] = useState([]);
+    // const fetchData = async () => {
+    //     try {
+    //         const db = getFirestore();
+    //         const colRef = collection(db, 'salesData');
+    //         const snapshot = await getDocs(colRef);
+
+    //         let data = [];
+    //         snapshot.forEach((doc) => {
+    //             const { customerName, sales, price, frozenSales, liveSales, date } = doc.data();
+    //             const dates = date.toDate();
+    //             const formattedDate = `${dates.getDate()}/${dates.getMonth() + 1}/${dates.getFullYear()}`;
+    //             data.push({ ...doc.data(), id: doc.id, sales, price, frozenSales, liveSales, customerName, dates: formattedDate });
+    //         });
+    //         setSalesData(data);
+    //     } catch (error) {
+    //         console.log(error.message);
+    //     }
+    // };
     const fetchData = async () => {
         try {
             const db = getFirestore();
             const colRef = collection(db, 'salesData');
-            const snapshot = await getDocs(colRef);
+            const querySnapshot = await getDocs(query(collection(db, 'salesData'), orderBy('customerName', 'asc')));
 
             let data = [];
-            snapshot.forEach((doc) => {
+            querySnapshot.forEach((doc) => {
                 const { customerName, sales, price, frozenSales, liveSales, date } = doc.data();
-                const dates = date.toDate()
+                const dates = date.toDate();
                 const formattedDate = `${dates.getDate()}/${dates.getMonth() + 1}/${dates.getFullYear()}`;
                 data.push({ ...doc.data(), id: doc.id, sales, price, frozenSales, liveSales, customerName, dates: formattedDate });
             });
+
             setSalesData(data);
-            return data; // Return fetched data
+            console.log(data);
         } catch (error) {
             console.log(error.message);
         }
@@ -83,11 +104,24 @@ const Card = () => {
             console.error('Error adding data to Firestore: ', error.message);
         }
     };
+
+    const handleDeleteSale = async (id) => {
+        try {
+            const db = getFirestore();
+            const saleDocRef = doc(db, 'salesData', id);
+            await deleteDoc(saleDocRef);
+            console.log('Document successfully deleted!');
+            // Optionally, update the state to reflect the deletion
+            setSalesData(prevSalesData => prevSalesData.filter(sale => sale.id !== id));
+        } catch (error) {
+            console.error('Error deleting document: ', error);
+        }
+    };
     const handleEditSale = (id) => {
+        setEditingSaleId(id);
         const saleToEdit = salesData.find(sale => sale.id === id);
         if (saleToEdit) {
             setFormData({
-                id: saleToEdit.id,
                 date: saleToEdit.date,
                 customerName: saleToEdit.customerName,
                 sales: saleToEdit.sales,
@@ -98,9 +132,36 @@ const Card = () => {
             setShowAddSales(true);
         }
     };
-    const handleDeleteSale = (id) => {
-        const updatedSalesData = salesData.filter(sale => sale.id !== id);
-        setSalesData(updatedSalesData);
+
+    const handleUpdateSale = async () => {
+        try {
+            const db = getFirestore();
+            const saleDocRef = doc(db, 'salesData', editingSaleId);
+            await updateDoc(saleDocRef, {
+                customerName: formData.customerName,
+                date: new Date(formData.date),
+                sales: parseInt(formData.sales),
+                price: parseFloat(formData.price),
+                frozenSales: parseInt(formData.frozenSales),
+                liveSales: parseInt(formData.liveSales)
+            });
+
+            await fetchData(); // Fetch data again
+            setFormData({
+                date: "",
+                customerName: "",
+                sales: 0,
+                price: 0,
+                frozenSales: 0,
+                liveSales: 0,
+            });
+
+            setShowAddSales(false);
+            setEditingSaleId(null);
+            console.log('Data updated in Firestore successfully!');
+        } catch (error) {
+            console.error('Error updating data in Firestore: ', error.message);
+        }
     };
 
     return (
@@ -109,7 +170,7 @@ const Card = () => {
             <div className="sales-container">
                 {showAddSales && (
                     <div className="add-sales-wrapper">
-                        <h2>{formData.id ? 'Edit Sales Data' : 'Add Sales Data'}</h2>
+                        <h2>{editingSaleId ? 'Edit Sales Data' : 'Add Sales Data'}</h2>
                         <form className="sales" >
                             <label>Date:</label>
                             <input
@@ -159,8 +220,8 @@ const Card = () => {
                                 onChange={handleInputChange}
                                 required />
                             <br />
-                            <button type="button" onClick={handleAddSalesData}>
-                                {formData.id ? 'Update Data' : 'Add Data'}
+                            <button type="button" onClick={editingSaleId ? handleUpdateSale : handleAddSalesData}>
+                                {editingSaleId ? 'Update Data' : 'Add Data'}
                             </button>
                         </form>
                     </div>
