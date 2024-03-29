@@ -1,22 +1,13 @@
-import React from 'react';
-import { Route, Navigate } from 'react-router-dom';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from './firebase';
+import React, { useContext } from 'react';
+import { Navigate } from 'react-router-dom';
+import { Context } from './AuthContext'
 
-const ProtectedRoute = ({ component: Component, ...rest }) => {
-    const [user, loading] = useAuthState(auth);
-
-    if (loading) {
-        // You can render a loading spinner or message while checking authentication status
-        return <div>Loading...</div>;
+export default function ProtectedRoute({ children }) {
+    const { user } = useContext(Context)
+    if (!user) {
+        return <Navigate to='/' replace />
     }
-
-    return (
-        <Route
-            {...rest}
-            element={user ? <Component {...rest} /> : <Navigate to="/login" />}
-        />
-    );
-};
-
-export default ProtectedRoute;
+    else {
+        return children;
+    }
+}

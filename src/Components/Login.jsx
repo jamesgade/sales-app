@@ -4,7 +4,7 @@ import { FaUser, FaLock } from 'react-icons/fa';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../firebase';
-import ProtectedRoute from '../ProtectedRoute'; // Import ProtectedRoute
+
 
 const Login = () => {
     const [rememberMe, setRememberMe] = useState(false);

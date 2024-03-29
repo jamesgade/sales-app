@@ -6,15 +6,14 @@ import NotFound from './Components/NotFound'
 import ForgotPassword from './Components/ForgotPassword'
 import Register from './Components/Register'
 import ProtectedRoute from './ProtectedRoute'
+import { AuthContext } from './AuthContext'
 const App = () => {
   return (
-    <div>
+    <AuthContext>
       <Router>
         <Routes>
           <Route path='/' element={<Login />} />
-          <Route path="/dashboard" element={<ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>} />
+          <Route path="/dashboard" element={<ProtectedRoute component={Dashboard} />} />
           <Route path='/notfound' element={<NotFound />} />
           <Route path='/*' element={<NotFound />} />
           <Route path='/signup' element={<Register />} />
@@ -22,7 +21,7 @@ const App = () => {
 
         </Routes>
       </Router>
-    </div >
+    </AuthContext >
   )
 }
 
