@@ -1530,7 +1530,7 @@ find-up@^5.0.0:
     locate-path "^6.0.0"
     path-exists "^4.0.0"
 
-firebase@^10.9.0:
+firebase@^10.9.0, "firebase@>= 9.0.0":
   version "10.9.0"
   resolved "https://registry.npmjs.org/firebase/-/firebase-10.9.0.tgz"
   integrity sha512-R8rDU3mg2dq0uPOoZ5Nc3BeZTbXxBPJS8HcZLtnV0f5/YrmpNsHngzmMHRVB+91T+ViJGVL/42dV23gS9w9ccw==
@@ -2306,6 +2306,11 @@ react-dom@^18.2.0, react-dom@>=16.8:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
+react-firebase-hooks@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.npmjs.org/react-firebase-hooks/-/react-firebase-hooks-5.1.1.tgz"
+  integrity sha512-y2UpWs82xs+39q5Rc/wq316ca52QsC0n8m801V+yM4IC4hbfOL4yQPVSh7w+ydstdvjN9F+lvs1WrO2VYxpmdA==
+
 react-icons@^5.0.1:
   version "5.0.1"
   resolved "https://registry.npmjs.org/react-icons/-/react-icons-5.0.1.tgz"
@@ -2336,7 +2341,7 @@ react-router@6.22.3:
   dependencies:
     "@remix-run/router" "1.15.3"
 
-react@*, react@^18.2.0, react@>=16.8:
+react@*, react@^18.2.0, "react@>= 16.8.0", react@>=16.8:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==

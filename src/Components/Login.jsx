@@ -1,27 +1,17 @@
-import React, { useState, useEffect } from 'react'
-import '../index.css'
-import { FaUser, FaLock } from 'react-icons/fa'
-import { auth } from '../firebase'
-import { signInWithEmailAndPassword } from 'firebase/auth'
-import { useNavigate } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import '../index.css';
+import { FaUser, FaLock } from 'react-icons/fa';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+import { auth } from '../firebase';
+import ProtectedRoute from '../ProtectedRoute'; // Import ProtectedRoute
 
 const Login = () => {
     const [rememberMe, setRememberMe] = useState(false);
-    const history = useNavigate()
+    const history = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    // const signIn = (e) => {
-    //     e.preventDefault();
-    //     signInWithEmailAndPassword(auth, email, password)
-    //         .then((userCredential) => {
-    //             console.log(userCredential)
-    //             alert('Login successful!');
-    //             history(`/dashboard`)
-    //         }).catch((error) => {
-    //             console.log(error)
-    //             alert('Invalid username or password');
-    //         })
-    // }
+
     useEffect(() => {
         const storedEmail = localStorage.getItem('rememberedEmail');
         const storedPassword = localStorage.getItem('rememberedPassword');
@@ -56,12 +46,11 @@ const Login = () => {
         }
     };
     const handleReset = () => {
-        history(`/reset`)
-    }
+        history(`/reset`);
+    };
     const handleSignup = () => {
-        history(`/signup`)
-    }
-
+        history(`/signup`);
+    };
 
     return (
         <section className='login'>
@@ -84,12 +73,12 @@ const Login = () => {
                     <button type='submit' >Login</button>
                     <div className="register-link">
                         <p onClick={handleSignup}>Don't have an account?  <b>Register</b></p>
-
                     </div>
                 </form>
             </div>
         </section>
-    )
-}
+    );
+};
 
-export default Login
+export default Login;
+
