@@ -6,22 +6,25 @@ import NotFound from './Components/NotFound'
 import ForgotPassword from './Components/ForgotPassword'
 import Register from './Components/Register'
 import ProtectedRoute from './ProtectedRoute'
-import { AuthContext } from './AuthContext'
+
 const App = () => {
   return (
-    <AuthContext>
-      <Router>
-        <Routes>
-          <Route path='/' element={<Login />} />
-          <Route path="/dashboard" element={<ProtectedRoute component={Dashboard} />} />
-          <Route path='/notfound' element={<NotFound />} />
-          <Route path='/*' element={<NotFound />} />
-          <Route path='/signup' element={<Register />} />
-          <Route path='/reset' element={<ForgotPassword />} />
 
-        </Routes>
-      </Router>
-    </AuthContext >
+    <Router>
+      <Routes>
+        <Route path='/' element={<Login />} />
+
+        <Route path='/notfound' element={<NotFound />} />
+        <Route path='/*' element={<NotFound />} />
+        <Route path='/signup' element={<Register />} />
+        <Route path='/reset' element={<ForgotPassword />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+
+      </Routes>
+    </Router>
+
   )
 }
 
