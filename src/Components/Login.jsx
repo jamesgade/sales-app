@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../index.css';
 import { FaUser, FaLock } from 'react-icons/fa';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -7,20 +7,20 @@ import { auth } from '../firebase';
 
 
 const Login = () => {
-    const [rememberMe, setRememberMe] = useState(false);
+    // const [rememberMe, setRememberMe] = useState(false);
     const history = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    useEffect(() => {
-        const storedEmail = localStorage.getItem('rememberedEmail');
-        const storedPassword = localStorage.getItem('rememberedPassword');
-        if (storedEmail && storedPassword) {
-            setEmail(storedEmail);
-            setPassword(storedPassword);
-            setRememberMe(true);
-        }
-    }, []);
+    // useEffect(() => {
+    //     const storedEmail = localStorage.getItem('rememberedEmail');
+    //     const storedPassword = localStorage.getItem('rememberedPassword');
+    //     if (storedEmail && storedPassword) {
+    //         setEmail(storedEmail);
+    //         setPassword(storedPassword);
+
+    //     }
+    // }, []);
 
     const signIn = (e) => {
         e.preventDefault();
@@ -36,20 +36,17 @@ const Login = () => {
             });
 
         // Store credentials if "Remember Me" is checked
-        if (rememberMe) {
-            localStorage.setItem('rememberedEmail', email);
-            localStorage.setItem('rememberedPassword', password);
-        } else {
-            // Clear stored credentials if "Remember Me" is unchecked
-            localStorage.removeItem('rememberedEmail');
-            localStorage.removeItem('rememberedPassword');
-        }
+        // if (rememberMe) {
+        //     localStorage.setItem('rememberedEmail', email);
+        //     localStorage.setItem('rememberedPassword', password);
+        // } else {
+        //     // Clear stored credentials if "Remember Me" is unchecked
+        //     localStorage.removeItem('rememberedEmail');
+        //     localStorage.removeItem('rememberedPassword');
+        // }
     };
     const handleReset = () => {
         history(`/reset`);
-    };
-    const handleSignup = () => {
-        history(`/signup`);
     };
 
     return (
@@ -66,14 +63,12 @@ const Login = () => {
                         <FaLock className='icon' />
                     </div>
                     <div className="remember-forgot">
-                        <label><input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />Remember me</label>
+
                         <p onClick={handleReset}> Forgot Password?</p>
                     </div>
 
                     <button type='submit' >Login</button>
-                    <div className="register-link">
-                        <p onClick={handleSignup}>Don't have an account?  <b>Register</b></p>
-                    </div>
+
                 </form>
             </div>
         </section>

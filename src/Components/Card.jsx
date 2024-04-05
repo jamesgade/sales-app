@@ -2,33 +2,15 @@ import React, { useState, useEffect } from "react";
 import { BsFillTrashFill, BsFillPencilFill } from 'react-icons/bs'
 import { CSVLink } from 'react-csv'
 import { BiSearch } from 'react-icons/bi'
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, updateDoc, orderBy, query, serverTimestamp } from 'firebase/firestore';
-
-
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, updateDoc, orderBy, query } from 'firebase/firestore';
+import { orderByChild, ref } from "firebase/database";
 
 const Card = () => {
     const [search, setSearch] = useState('')
     const [showAddSales, setShowAddSales] = useState(false);
     const [editingSaleId, setEditingSaleId] = useState(null);
     const [salesData, setSalesData] = useState([]);
-    // const fetchData = async () => {
-    //     try {
-    //         const db = getFirestore();
-    //         const colRef = collection(db, 'salesData');
-    //         const snapshot = await getDocs(colRef);
 
-    //         let data = [];
-    //         snapshot.forEach((doc) => {
-    //             const { customerName, sales, price, frozenSales, liveSales, date } = doc.data();
-    //             const dates = date.toDate();
-    //             const formattedDate = `${dates.getDate()}/${dates.getMonth() + 1}/${dates.getFullYear()}`;
-    //             data.push({ ...doc.data(), id: doc.id, sales, price, frozenSales, liveSales, customerName, dates: formattedDate });
-    //         });
-    //         setSalesData(data);
-    //     } catch (error) {
-    //         console.log(error.message);
-    //     }
-    // };
     const fetchData = async () => {
         try {
             const db = getFirestore();
@@ -51,12 +33,12 @@ const Card = () => {
     };
 
     useEffect(() => {
-        fetchData(); // Fetch data when component mounts
+        fetchData();
     }, []);
 
 
     const [formData, setFormData] = useState({
-        date: "",
+        date: null,
         customerName: "",
         sales: 0,
         price: 0,
@@ -87,8 +69,8 @@ const Card = () => {
                 liveSales: parseInt(formData.liveSales)
             });
 
-            // Refresh sales data after adding new data
-            await fetchData(); // Fetch data again
+
+            await fetchData();
             setFormData({
                 date: "",
                 customerName: "",
@@ -111,27 +93,35 @@ const Card = () => {
             const saleDocRef = doc(db, 'salesData', id);
             await deleteDoc(saleDocRef);
             console.log('Document successfully deleted!');
-            // Optionally, update the state to reflect the deletion
             setSalesData(prevSalesData => prevSalesData.filter(sale => sale.id !== id));
         } catch (error) {
             console.error('Error deleting document: ', error);
         }
     };
+
     const handleEditSale = (id) => {
         setEditingSaleId(id);
         const saleToEdit = salesData.find(sale => sale.id === id);
         if (saleToEdit) {
-            setFormData({
-                date: saleToEdit.date,
+            console.log(saleToEdit.date);
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                date: saleToEdit.date ? saleToEdit.date.toDate() : null,
                 customerName: saleToEdit.customerName,
                 sales: saleToEdit.sales,
                 price: saleToEdit.price,
                 frozenSales: saleToEdit.frozenSales,
                 liveSales: saleToEdit.liveSales,
-            });
+            }));
+            console.log(formData);
             setShowAddSales(true);
         }
     };
+
+
+    useEffect(() => {
+        console.log(formData);
+    }, [formData]);
 
     const handleUpdateSale = async () => {
         try {
@@ -146,7 +136,7 @@ const Card = () => {
                 liveSales: parseInt(formData.liveSales)
             });
 
-            await fetchData(); // Fetch data again
+            await fetchData();
             setFormData({
                 date: "",
                 customerName: "",
@@ -176,7 +166,7 @@ const Card = () => {
                             <input
                                 type="date"
                                 name="date"
-                                value={formData.date}
+                                value={formData.date ? new Date(formData.date).toISOString().split('T')[0] : ''}
                                 onChange={handleInputChange}
                                 required />
                             <br />

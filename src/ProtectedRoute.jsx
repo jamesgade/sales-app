@@ -1,12 +1,15 @@
-
-import { Outlet, useLocation, Navigate } from "react-router-dom";
-import { auth } from './firebase'
+import { Navigate, Outlet } from 'react-router-dom'
+import { useAuthStatus } from './Components/useAuthStatus'
+import Spinner from './Components/Spinner'
 
 const ProtectedRoute = () => {
-    const location = useLocation();
-    return auth.currentUser ? (<Outlet />) : (
-        <Navigate to='/' state={{ from: location }} replace />
-    )
+    const { loggedIn, checkingStatus } = useAuthStatus()
+
+    if (checkingStatus) {
+        return <Spinner />
+    }
+
+    return loggedIn ? <Outlet /> : <Navigate to='/' replace />
 }
 
 export default ProtectedRoute
