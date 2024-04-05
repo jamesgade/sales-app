@@ -76,6 +76,7 @@ display: flex;
     text-decoration: none;
 }
 .remember-forgot p{
+    margin:auto;
     color: #fff;
     cursor: pointer;
 
@@ -118,4 +119,14 @@ cursor: pointer;
 }
 .register-link p a:hover{
     text-decoration: underline;
+}
+
+.notfound-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 17px;
+    margin :auto;
+    padding-top: 15rem;
 }
