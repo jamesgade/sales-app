@@ -14,7 +14,7 @@ const Sidebar = () => {
         <div className='menu'>
             <div className="logo">
                 <FcSalesPerformance className='logo-icon' />
-                <h2>
+                <h2 style={{ fontSize: '22px' }}>
                     Sales-App
                 </h2>
             </div>
