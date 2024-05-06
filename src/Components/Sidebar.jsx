@@ -1,5 +1,5 @@
 import React from 'react'
-import { BiHome, BiLogOut } from 'react-icons/bi'
+import { BiHome, BiLogOut, BiCaretRightSquare, BiSolidFace, BiSolidPlusCircle, BiSolidUserPlus, BiBarChartAlt } from 'react-icons/bi'
 import { FcSalesPerformance } from "react-icons/fc";
 import { auth } from '../firebase'
 import { signOut } from 'firebase/auth';
@@ -22,6 +22,38 @@ const Sidebar = () => {
                 <a href="/dashboard" className='item'>
                     <BiHome className='icon' />
                     Dashboard
+                </a>
+                <a href="/dashboard" className='item'>
+                    <BiSolidPlusCircle className='icon' />
+                    Add Sales
+                </a>
+                <a href="/dashboard" className='item'>
+                    <BiSolidPlusCircle className='icon' />
+                    Add Production
+                </a>
+                <a href="/dashboard" className='item'>
+                    < BiSolidUserPlus className='icon' />
+                    Add Customer
+                </a>
+                <a href="/dashboard" className='item'>
+                    <BiBarChartAlt className='icon' />
+                    Sales
+                </a>
+                <a href="/dashboard" className='item'>
+                    <BiCaretRightSquare className='icon' />
+                    Production
+                </a>
+                <a href="/dashboard" className='item'>
+                    <BiSolidFace className='icon' />
+                    Customers
+                </a>
+                <a href="/dashboard" className='item'>
+                    <BiSolidPlusCircle className='icon' />
+                    Add Stock
+                </a>
+                <a href="/dashboard" className='item'>
+                    <BiCaretRightSquare className='icon' />
+                    View Stock
                 </a>
 
                 <a href="/" className='item' onClick={logOut}>
